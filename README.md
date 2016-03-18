@@ -42,7 +42,7 @@ CocoaPod integration
 ======================================
 Please follow this guide to install App-Chain module in your existed or new project
 
-* see general CocoaPods instruction: https://cocoapods.org > getting started
+* see general CocoaPods instruction: ```https://cocoapods.org > getting started```
 			
 * create a new project in Xcode
 	
