@@ -1,5 +1,5 @@
 #
-#  Be sure to run `pod spec lint sequencing-file-selector-api-objc.podspec' to ensure this is a
+#  Be sure to run `pod spec lint sequencing-app-chains-api-objc.podspec.podspec' to ensure this is a
 #  valid spec and to remove all comments including this before submitting the spec.
 #
 #  To learn more about Podspec attributes see http://docs.cocoapods.org/specification.html
@@ -21,6 +21,5 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.source_files = 'Pod', 'Pod/**/*.*'  
   s.requires_arc = true
-  
 
 end

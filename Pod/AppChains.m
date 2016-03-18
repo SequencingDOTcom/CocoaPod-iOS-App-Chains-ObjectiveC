@@ -641,7 +641,7 @@ static const NSUInteger kDefaultReportRetryTimeout = 1;
                        if ([status[@"CompletedSuccesfully"] isKindOfClass:[NSNull class]]) {
                            succeeded = NO;
                        } else {
-                           succeeded = status[@"CompletedSuccesfully"];
+                           succeeded = YES; // status[@"CompletedSuccesfully"]
                        }
 
                        NSString *jobStatus = status[@"Status"];
