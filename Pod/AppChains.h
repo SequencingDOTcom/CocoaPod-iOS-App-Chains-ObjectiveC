@@ -1,6 +1,6 @@
 //
 //  AppChains.h
-//  AppChains
+//  Copyright © 2015-2016 Sequencing.com. All rights reserved
 //
 
 #import <Foundation/Foundation.h>
