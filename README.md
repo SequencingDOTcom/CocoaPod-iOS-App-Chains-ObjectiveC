@@ -47,24 +47,28 @@ Please follow this guide to install App-Chain module in your existed or new proj
 * create a new project in Xcode
 	
 * create Podfile in your project directory: 
-		```
-		$ pod init
-		```
+
+```
+$ pod init
+```
 		
 * specify ```sequencing-app-chains-api-objc``` pod parameters: 
-		```
-		$ pod 'sequencing-app-chains-api-objc', '~> 1.0.0'
-		```		
+
+```
+$ pod 'sequencing-app-chains-api-objc', '~> 1.0.0'
+```		
 		
 * install the dependency in your project: 
-		```
-		$ pod install
-		```
+
+```
+$ pod install
+```
 		
 * always open the Xcode workspace instead of the project file: 
-		```
-		$ open *.xcworkspace
-		```
+
+```
+$ open *.xcworkspace
+```
 
 
 Configuration
