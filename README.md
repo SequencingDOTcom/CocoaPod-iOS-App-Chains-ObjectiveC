@@ -22,6 +22,7 @@ Search and find app chains -> https://sequencing.com/app-chains/
 An app chain is an integration of an API call and an analysis of an app user's genes. Each app chain provides information about a specific trait, condition, disease, supplement or medication. App chains are used to provide genetically tailored content to app users so that the user experience is instantly personalized at the genetic level. This is called [Real Time Personalization (RTP)](https://sequencing.com/developer-documentation/what-is-real-time-personalization-rtp).
 
 Each app chain consists of:
+
 1. **API call**
  * API call that triggers an app hosted by Sequencing.com to perform genetic analysis on your app user's genes
 2. **API response**
@@ -30,6 +31,7 @@ Each app chain consists of:
  * your app uses this information, which is obtained directly from your app user's genes in real-time, to create a truly personalized user experience
 
 Each app chain is composed of 
+
 * an **API request** to Sequencing.com
  * this request is secured using oAuth2
 * analysis of the app user's genes
@@ -41,6 +43,7 @@ Each app chain is composed of
  * the documentation for each app chain provides a list of all possible API responses. The response for most app chains are simply 'Yes' or 'No'.
 
 Example
+
 * App Chain: It is very important for this person's health to apply sunscreen with SPF +30 whenever it is sunny or even partly sunny.
 * Possible responses: Yes, No, Insufficient Data, Error
 
