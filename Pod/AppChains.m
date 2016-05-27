@@ -155,12 +155,16 @@ static const NSUInteger kDefaultReportRetryTimeout = 3;
                        withDatasourceId:datasourceId
                        withSuccessBlock:^(Job *job) {
                            
-                           [self getReportImplWithJob:job
-                                     withSuccessBlock:^(Report *result) {
-                                         success(result);
-                                     } withFailureBlock:^(NSError *error) {
-                                         failure(error);
-                                     }];
+                           if (job.getJobId > 0) {
+                               [self getReportImplWithJob:job
+                                         withSuccessBlock:^(Report *result) {
+                                             success(result);
+                                         } withFailureBlock:^(NSError *error) {
+                                             failure(error);
+                                         }];
+                           } else {
+                               failure(@"jobID is zero");
+                           }
                        }
                        withFailureBlock:^(NSError *error) {
                            failure(error);
@@ -186,12 +190,16 @@ static const NSUInteger kDefaultReportRetryTimeout = 3;
                         withRequestBody:requestBody
                        withSuccessBlock:^(Job *job) {
                            
-                           [self getReportImplWithJob:job
-                                     withSuccessBlock:^(Report *result) {
-                                         success(result);
-                                     } withFailureBlock:^(NSError *error) {
-                                         failure(error);
-                                     }];
+                           if (job.getJobId > 0) {
+                               [self getReportImplWithJob:job
+                                         withSuccessBlock:^(Report *result) {
+                                             success(result);
+                                         } withFailureBlock:^(NSError *error) {
+                                             failure(error);
+                                         }];
+                           } else {
+                               failure(@"jobID is zero");
+                           }
                        }
                        withFailureBlock:^(NSError *error) {
                            failure(error);
@@ -268,13 +276,16 @@ static const NSUInteger kDefaultReportRetryTimeout = 3;
                        withDatasourceId:datasourceId
                        withSuccessBlock:^(Job *job) {
                            
-                           [self getRawJobResultWithJob:job
-                                       withSuccessBlock:^(RawReportJobResult *rawResult) {
-                                           success([rawResult getSource]);
-                                       } withFailureBlock:^(NSError *error) {
-                                           failure(error);
-                                       }];
-                           
+                           if (job.getJobId > 0) {
+                               [self getRawJobResultWithJob:job
+                                           withSuccessBlock:^(RawReportJobResult *rawResult) {
+                                               success([rawResult getSource]);
+                                           } withFailureBlock:^(NSError *error) {
+                                               failure(error);
+                                           }];
+                           } else {
+                               failure(@"jobID is zero");
+                           }
                        } withFailureBlock:^(NSError *error) {
                            failure(error);
                        }];
@@ -300,13 +311,16 @@ static const NSUInteger kDefaultReportRetryTimeout = 3;
                         withRequestBody:requestBody
                        withSuccessBlock:^(Job *job) {
                            
-                           [self getRawJobResultWithJob:job
-                                       withSuccessBlock:^(RawReportJobResult *rawResult) {
-                                           success([rawResult getSource]);
-                                       } withFailureBlock:^(NSError *error) {
-                                           failure(error);
-                                       }];
-                           
+                           if (job.getJobId > 0) {
+                               [self getRawJobResultWithJob:job
+                                           withSuccessBlock:^(RawReportJobResult *rawResult) {
+                                               success([rawResult getSource]);
+                                           } withFailureBlock:^(NSError *error) {
+                                               failure(error);
+                                           }];
+                           } else {
+                               failure(@"jobID is zero");
+                           }
                        } withFailureBlock:^(NSError *error) {
                            failure(error);
                        }];
