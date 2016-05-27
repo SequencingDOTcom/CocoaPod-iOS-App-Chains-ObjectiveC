@@ -163,7 +163,13 @@ static const NSUInteger kDefaultReportRetryTimeout = 3;
                                              failure(error);
                                          }];
                            } else {
-                               failure(@"jobID is zero");
+                               NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"jobID is zero.", nil),
+                                                          NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"jobID is zero.", nil),
+                                                          NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"jobID is zero.", nil)};
+                               NSError *error = [NSError errorWithDomain:@"jobID error"
+                                                                    code:0
+                                                                userInfo:userInfo];
+                               failure(error);
                            }
                        }
                        withFailureBlock:^(NSError *error) {
@@ -198,7 +204,13 @@ static const NSUInteger kDefaultReportRetryTimeout = 3;
                                              failure(error);
                                          }];
                            } else {
-                               failure(@"jobID is zero");
+                               NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"jobID is zero.", nil),
+                                                          NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"jobID is zero.", nil),
+                                                          NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"jobID is zero.", nil)};
+                               NSError *error = [NSError errorWithDomain:@"jobID error"
+                                                                    code:0
+                                                                userInfo:userInfo];
+                               failure(error);
                            }
                        }
                        withFailureBlock:^(NSError *error) {
@@ -284,7 +296,13 @@ static const NSUInteger kDefaultReportRetryTimeout = 3;
                                                failure(error);
                                            }];
                            } else {
-                               failure(@"jobID is zero");
+                               NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"jobID is zero.", nil),
+                                                          NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"jobID is zero.", nil),
+                                                          NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"jobID is zero.", nil)};
+                               NSError *error = [NSError errorWithDomain:@"jobID error"
+                                                                    code:0
+                                                                userInfo:userInfo];
+                               failure(error);
                            }
                        } withFailureBlock:^(NSError *error) {
                            failure(error);
@@ -319,7 +337,13 @@ static const NSUInteger kDefaultReportRetryTimeout = 3;
                                                failure(error);
                                            }];
                            } else {
-                               failure(@"jobID is zero");
+                               NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"jobID is zero.", nil),
+                                                          NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"jobID is zero.", nil),
+                                                          NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"jobID is zero.", nil)};
+                               NSError *error = [NSError errorWithDomain:@"jobID error"
+                                                                    code:0
+                                                                userInfo:userInfo];
+                               failure(error);
                            }
                        } withFailureBlock:^(NSError *error) {
                            failure(error);
