@@ -76,7 +76,7 @@ Please follow this guide to install App-Chain module in your existed or new proj
 * specify ```sequencing-app-chains-api-objc``` pod parameters in Podfile: 
 
 	```
-	pod 'sequencing-app-chains-api-objc', '~> 1.0.2'
+	pod 'sequencing-app-chains-api-objc', '~> 1.1.0'
 	```		
 		
 * install the dependency in your project: 
@@ -117,32 +117,72 @@ AppChains Objective-C API overview
 
 Method  | Purpose | Arguments | Description
 ------------- | ------------- | ------------- | -------------
-`-(instancetype)initWithToken:(NSString *)token` | Constructor | **token** - security token provided by sequencing.com | 
-`-(instancetype)initWithToken:(NSString *)token withHostName:(NSString *)hostName`  | Constructor | **token** - security token provided by sequencing.com <br> **hostName** - API server hostname. api.sequencing.com by default | Constructor used for creating AppChains class instance in case reporting API is needed and where security token is required
-`- (void)getReportWithRemoteMethodName:(NSString *)remoteMethodName             withApplicationMethodName:(NSString *)applicationMethodName                      withDatasourceId:(NSString *)datasourceId withSuccessBlock:(void (^)(Report *result))success withFailureBlock:(void (^)(NSError *error))failure`  | Reporting API | **remoteMethodName** - REST endpoint name, use "StartApp" <br> **applicationMethodName** - name of data processing routine <br> **datasourceId** - input data identifier <br> <br> **success** - callback executed on success operation<br> **failure** - callback executed on operation failure
+`- (instancetype)initWithToken:(NSString *)token` | Constructor | **token** - security token provided by sequencing.com | 
+`- (instancetype)initWithToken:(NSString *)token<br>withHostName:(NSString *)hostName`  | Constructor | **token** - security token provided by sequencing.com <br> **hostName** - API server hostname. api.sequencing.com by default | Constructor used for creating AppChains class instance in case reporting API is needed and where security token is required
+`- (void)getReportWithApplicationMethodName:(NSString *)applicationMethodName<br>withDatasourceId:(NSString *)datasourceId<br>withSuccessBlock:(void (^)(Report *result))success<br>withFailureBlock:(void (^)(NSError *error))failure;`   | Reporting API | **applicationMethodName** - name of data processing routine<br>**datasourceId** - input data identifier<br><br>**success** - callback executed on success operation, results with **Report** object<br> **failure** - callback executed on operation failure
+`- (void)getBatchReportWithApplicationMethodName:(NSArray *)appChainsParams<br>withSuccessBlock:(ReportsArray)success<br>withFailureBlock:(void (^)(NSError *error))failure;`   | Reporting API with batch request | **appChainsParams** - array of params for batch request. Each param should be an array with items [first object - **applicationMethodName** as NSString, last object - **datasourceId** as NSString)<br><br>**success** - callback executed on success operation, results with array of dictionaries.<br>Each dictionary has following keys and objects {"appChainID": appChain ID string, "report": Report object}<br>**failure** - callback executed on operation failure
 
 Adding code to the project:
-* Add AppChains.h, AppChains.m into your source folder and import AppChains in your Objective-C source file (```#import "AppChains.h"```).
+* import AppChains: ```#import "AppChains.h"```
 
-After that you can start utilizing Reporting API
 
-```objectivec
-[appChains getReportWithRemoteMethodName:@"StartApp"
-               withApplicationMethodName:@"<chain id>"
-                        withDatasourceId:@"<file id>"
-                        withSuccessBlock:^(Report *result) {
-                               NSArray *arr = [result getResults];
-                               for (Result *obj in arr) {
+After that you can start utilizing Reporting API for single chain request:
+
+```
+AppChains *appChains = [[AppChains alloc] initWithToken:yourAccessToken 
+										   withHostName:@"api.sequencing.com"];
+    
+[appChains getReportWithApplicationMethodName:@"<chain id>" // i.e. @"Chain9"
+							 withDatasourceId:@"<file id>"
+							 withSuccessBlock:^(Report *result) {
+							 	
+							 	NSArray *arr = [result getResults];
+							 	for (Result *obj in arr) {
                                     ResultValue *frv = [obj getValue];
 
                                     if ([frv getType] == kResultTypeFile) {
                                         [(FileResultValue *)frv saveToLocation:@"/tmp/"];
                                     }
                                 }
-                            } withFailureBlock:^(NSError *error) {
-                                NSLog(@"Error occured: %@", [error description]);
-                            }];
+                            }
+                             withFailureBlock:^(NSError *error) {
+                             	NSLog(@"Error occured: %@", [error description]);
+                            }];                                 
 ```
+
+
+Example of using batch request API for several chains:
+
+```
+AppChains *appChains = [[AppChains alloc] initWithToken:accessToken withHostName:@"api.sequencing.com"];
+    
+// parameters array for batch request as example
+NSArray *appChainsForRequest = @[@[@"Chain88", fileID],
+								 @[@"Chain9",  fileID]];
+    
+[appChains getBatchReportWithApplicationMethodName:appChainsForRequest
+								  withSuccessBlock:^(NSArray *reportResultsArray) {
+								  		// @reportResultsArray - result of reports for batch request, it's an array of dictionaries
+                                        // each dictionary has following keys: "appChainID": appChainID string, "report": *Report object
+                                        
+                                        for (NSDictionary *appChainReportDict in reportResultsArray) {
+                                        	
+                                        	Report *result = [appChainReportDict objectForKey:@"report"];
+                                            NSString *appChainID = [appChainReportDict objectForKey:@"appChainID"];
+                                            NSString *appChainValue = [NSString stringWithFormat:@""];
+                                              
+                                            if ([appChainID isEqualToString:@"Chain88"])
+                                            	appChainValue = [self parseAndHandleReportForChain88:result]; // your own method to parse report object
+                                            
+                                            else if ([appChainID isEqualToString:@"Chain9"])
+                                            	appChainValue = [self parseAndHandleForChain9:result]; // your own method to parse report object
+                                        }  
+                                    }
+                                    withFailureBlock:^(NSError *error) {
+                                    	NSLog(@"batch request error: %@", error);
+                                    }];
+```
+
 
 
 Troubleshooting
