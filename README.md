@@ -118,9 +118,9 @@ AppChains Objective-C API overview
 Method  | Purpose | Arguments | Description
 ------------- | ------------- | ------------- | -------------
 `- (instancetype)initWithToken:(NSString *)token` | Constructor | **token** - security token provided by sequencing.com | 
-`- (instancetype)initWithToken:(NSString *)token<br>withHostName:(NSString *)hostName`  | Constructor | **token** - security token provided by sequencing.com <br> **hostName** - API server hostname. api.sequencing.com by default | Constructor used for creating AppChains class instance in case reporting API is needed and where security token is required
-`- (void)getReportWithApplicationMethodName:(NSString *)applicationMethodName<br>withDatasourceId:(NSString *)datasourceId<br>withSuccessBlock:(void (^)(Report *result))success<br>withFailureBlock:(void (^)(NSError *error))failure;`   | Reporting API | **applicationMethodName** - name of data processing routine<br>**datasourceId** - input data identifier<br><br>**success** - callback executed on success operation, results with **Report** object<br> **failure** - callback executed on operation failure
-`- (void)getBatchReportWithApplicationMethodName:(NSArray *)appChainsParams<br>withSuccessBlock:(ReportsArray)success<br>withFailureBlock:(void (^)(NSError *error))failure;`   | Reporting API with batch request | **appChainsParams** - array of params for batch request. Each param should be an array with items [first object - **applicationMethodName** as NSString, last object - **datasourceId** as NSString)<br><br>**success** - callback executed on success operation, results with array of dictionaries.<br>Each dictionary has following keys and objects {"appChainID": appChain ID string, "report": Report object}<br>**failure** - callback executed on operation failure
+`- (instancetype)initWithToken:(NSString *)token withHostName:(NSString *)hostName`  | Constructor | **token** - security token provided by sequencing.com <br> **hostName** - API server hostname. api.sequencing.com by default | Constructor used for creating AppChains class instance in case reporting API is needed and where security token is required
+`- (void)getReportWithApplicationMethodName:(NSString *)applicationMethodName withDatasourceId:(NSString *)datasourceId withSuccessBlock:(void (^)(Report *result))success withFailureBlock:(void (^)(NSError *error))failure;`   | Reporting API | **applicationMethodName** - name of data processing routine<br><br>**datasourceId** - input data identifier<br><br>**success** - callback executed on success operation, results with `Report` object<br><br>**failure** - callback executed on operation failure
+`- (void)getBatchReportWithApplicationMethodName:(NSArray *)appChainsParams withSuccessBlock:(ReportsArray)success withFailureBlock:(void (^)(NSError *error))failure;`   | Reporting API with batch request | **appChainsParams** - array of params for batch request.<br>Each param should be an array with items:<br>first object - `applicationMethodName`<br>last object - `datasourceId`<br><br>**success** - callback executed on success operation, results with array of dictionaries.<br>Each dictionary has following keys and objects:<br>`appChainID` - appChain ID string<br>`report` - Report object<br><br>**failure** - callback executed on operation failure
 
 Adding code to the project:
 * import AppChains: ```#import "AppChains.h"```
@@ -154,7 +154,8 @@ AppChains *appChains = [[AppChains alloc] initWithToken:yourAccessToken
 Example of using batch request API for several chains:
 
 ```
-AppChains *appChains = [[AppChains alloc] initWithToken:accessToken withHostName:@"api.sequencing.com"];
+AppChains *appChains = [[AppChains alloc] initWithToken:yourAccessToken 
+										   withHostName:@"api.sequencing.com"];
     
 // parameters array for batch request as example
 NSArray *appChainsForRequest = @[@[@"Chain88", fileID],
