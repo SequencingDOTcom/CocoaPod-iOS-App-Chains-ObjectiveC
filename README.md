@@ -153,8 +153,7 @@ Example of using batch request API for several chains:
 AppChains *appChains = [[AppChains alloc] initWithToken:yourAccessToken withHostName:@"api.sequencing.com"];
     
 // parameters array for batch request as example
-NSArray *appChainsForRequest = @[@[@"Chain88", fileID],
-								 @[@"Chain9",  fileID]];
+NSArray *appChainsForRequest = @[@[@"Chain88", fileID], @[@"Chain9",  fileID]];
     
 [appChains getBatchReportWithApplicationMethodName:appChainsForRequest
 		withSuccessBlock:^(NSArray *reportResultsArray) {
