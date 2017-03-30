@@ -9,16 +9,16 @@
 Pod::Spec.new do |s|
 
   s.name         = "sequencing-app-chains-api-objc"
-  s.version      = "1.1.1"
+  s.version      = "1.1.2"
   s.summary      = "App Chains are the easy way to code Real Time Personalization (RTP) into your app. Module for iOS apps in ObjectiveC"
   s.homepage     = "https://github.com/SequencingDOTcom/CocoaPod-iOS-App-Chains-ObjectiveC"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Sequencing" => "gittaca@sequencing.com" }
   s.source       = { 
   :git => "https://github.com/SequencingDOTcom/CocoaPod-iOS-App-Chains-ObjectiveC.git", 
-  :tag => "1.1.1" 
+  :tag => "1.1.2" 
   }
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '9.0'
   s.source_files = 'Pod', 'Pod/**/*.*'  
   s.requires_arc = true
   
