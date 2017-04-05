@@ -129,17 +129,18 @@ Adding code to the project:
 After that you can start utilizing Reporting API for single chain request:
 
 ```
-AppChains *appChains = [[AppChains alloc] initWithToken:yourAccessToken withHostName:@"api.sequencing.com"];
+AppChains *appChains = [[AppChains alloc] initWithToken:@"<yourAccessToken>" withHostName:@"api.sequencing.com"];
     
 [appChains getReportWithApplicationMethodName:@"<chain id>"
 		withDatasourceId:@"<file id>"
 		withSuccessBlock:^(Report *result) {
-			NSArray *arr = [result getResults];
-			for (Result *obj in arr) {
+
+			for (Result *obj in [result getResults]) {
 				ResultValue *frv = [obj getValue];
-				if ([frv getType] == kResultTypeFile)
-					[(FileResultValue *)frv saveToLocation:@"/tmp/"];
-            }
+				if ([frv getType] == kResultTypeText) {
+					NSLog(@"\nvalue %@ = %@\n", [obj getName], [(TextResultValue *)frv getData]);
+				}
+			}
         }
         withFailureBlock:^(NSError *error) {
         	NSLog(@"Error occured: %@", [error description]);
@@ -153,25 +154,30 @@ Example of using batch request API for several chains:
 AppChains *appChains = [[AppChains alloc] initWithToken:yourAccessToken withHostName:@"api.sequencing.com"];
     
 // parameters array for batch request as example
-NSArray *appChainsForRequest = @[@[@"Chain88", fileID], @[@"Chain9",  fileID]];
+NSArray *appChainsForRequest = @[
+		@[@"<chain id>", @"<file id>"], 
+		@[@"<chain id>", @"<file id>"]
+		];
     
 [appChains getBatchReportWithApplicationMethodName:appChainsForRequest
 		withSuccessBlock:^(NSArray *reportResultsArray) {
 			
-			// @reportResultsArray - result of reports for batch request, it's an array of dictionaries
+			// @reportResultsArray - result of reports (Report object) for batch request, it's an array of dictionaries
 			// each dictionary has following keys: "appChainID": appChainID string, "report": *Report object
 			
 			for (NSDictionary *appChainReportDict in reportResultsArray) {
 				
 				Report *result = [appChainReportDict objectForKey:@"report"];
 				NSString *appChainID = [appChainReportDict objectForKey:@"appChainID"];
-				NSString *appChainValue = [NSString stringWithFormat:@""];
 				
-				if ([appChainID isEqualToString:@"Chain88"])
-					appChainValue = [self parseAndHandleReportForChain88:result]; // your own method to parse report object
+				NSLog(@"\n\n appChainID: %@\n", appChainID);
 				
-				else if ([appChainID isEqualToString:@"Chain9"])
-					appChainValue = [self parseAndHandleForChain9:result]; // your own method to parse report object
+				for (Result *obj in [result getResults]) {
+					ResultValue *frv = [obj getValue];
+					if ([frv getType] == kResultTypeText) {
+						NSLog(@"\nvalue %@ = %@\n", [obj getName], [(TextResultValue *)frv getData]);
+					}
+				}
 			}
 		}
 		withFailureBlock:^(NSError *error) {
